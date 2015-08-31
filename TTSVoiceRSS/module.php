@@ -66,12 +66,11 @@ class TTSVoiceRSS extends IPSModule
         $ApiData['r'] = $Speed;
         $ApiData['c'] = $Codec;
         $ApiData['f'] = $Format;
-
+        
         $header[] = "Accept: */*";
         $header[] = "Cache-Control: max-age=0";
         $header[] = "Connection: close";
         $header[] = "Accept-Charset: UTF-8";
-        $header[] = "Content-type: text/plain;charset=\"UTF-8\"";
         $ch = curl_init('https://api.voicerss.org/');
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
