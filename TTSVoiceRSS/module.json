@@ -1,0 +1,11 @@
+{
+    "id": "{133A6F0D-464E-4FAD-8620-02DB0AB9BFD1}",
+    "name": "TTSVoiceRSS",
+    "type": 3,
+    "vendor": "VoiceRSS",
+    "aliases": ["TTS VoiceRSS"],
+    "parentRequirements": [],
+    "childRequirements": [],
+    "implemented": [],
+    "prefix": "TTSV"
+}
