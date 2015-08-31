@@ -72,7 +72,7 @@ class TTSVoiceRSS extends IPSModule
         $header[] = "Connection: close";
         $header[] = "Accept-Charset: UTF-8";
         $header[] = "Content-type: text/plain;charset=\"UTF-8\"";
-        $ch = curl_init('https:///api.voicerss.org/');
+        $ch = curl_init('https://api.voicerss.org/');
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
@@ -82,6 +82,7 @@ class TTSVoiceRSS extends IPSModule
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 3000);
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 3000);
+        
         $result = curl_exec($ch);
         curl_close($ch);
         if ($result === false)
