@@ -13,6 +13,11 @@ class TTSVoiceRSS extends IPSModule
     {
         //Never delete this line!
         parent::ApplyChanges();
+        
+        $this->RegisterPropertyString('Apikey', '');
+        $this->RegisterPropertyString('Language', 'de-de');
+        $this->RegisterPropertyString('Codec', 'MP3');
+        $this->RegisterPropertyString('Sample', '8khz_8bit_mono');
     }
 
 ################## PUBLIC
