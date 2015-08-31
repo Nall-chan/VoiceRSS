@@ -60,7 +60,7 @@ class TTSVoiceRSS extends IPSModule
         if (trim($Text) == '')
             throw new Exception('Text is empty');
 
-        $ApiData['key'] = $this->ReadPropertyString('ApiKey');
+        $ApiData['key'] = $this->ReadPropertyString('Apikey');
         $ApiData['src'] = $Text;
         $ApiData['hl'] = $Language;
         $ApiData['r'] = $Speed;
@@ -71,7 +71,8 @@ class TTSVoiceRSS extends IPSModule
         $header[] = "Cache-Control: max-age=0";
         $header[] = "Connection: close";
         $header[] = "Accept-Charset: UTF-8";
-        $ch = curl_init('https://api.voicerss.org/');
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api.voicerss.org/");
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
