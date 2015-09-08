@@ -17,6 +17,7 @@ class TTSVoiceRSS extends IPSModule
     {
         //Never delete this line!
         parent::ApplyChanges();
+        IPS_SetInfo($this->InstanceID,'Register at http://www.voicerss.org/');
         
     }
 
