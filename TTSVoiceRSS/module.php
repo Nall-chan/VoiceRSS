@@ -11,13 +11,13 @@ class TTSVoiceRSS extends IPSModule
         $this->RegisterPropertyString('Language', 'de-de');
         $this->RegisterPropertyString('Codec', 'MP3');
         $this->RegisterPropertyString('Sample', '8khz_8bit_mono');
+        IPS_SetInfo($this->InstanceID,'Register at http://www.voicerss.org/');
     }
 
     public function ApplyChanges()
     {
         //Never delete this line!
         parent::ApplyChanges();
-        IPS_SetInfo($this->InstanceID,'Register at http://www.voicerss.org/');
         
     }
 
