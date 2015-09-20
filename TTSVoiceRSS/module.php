@@ -79,8 +79,9 @@ class TTSVoiceRSS extends IPSModule
         if ($MediaID === false)
         {
             $MediaID = IPS_CreateMedia(2);
-            IPS_SetMediaCached($MediaID);
+            IPS_SetMediaCached($MediaID,true);
             IPS_SetName($MediaID, 'Voice');
+            IPS_SetParent($MediaID,  $this->InstanceID);
             IPS_SetIdent($MediaID, 'Voice');
         }
 
