@@ -9,7 +9,7 @@ Free bei max. 350 Anfragen pro Tag.
 
 1. [Funktionsumfang](#1-funktionsumfang) 
 2. [Voraussetzungen](#2-voraussetzungen)
-3. [Installation & Konfiguration](#3-installation-konfiguration)
+3. [Installation & Konfiguration](#3-installation--konfiguration)
 4. [Funktionsreferenz](#4-funktionsreferenz) 
 5. [Anhang](#5-anhang)
 
@@ -38,8 +38,8 @@ Free bei max. 350 Anfragen pro Tag.
 ## 4. Funktionsreferenz
 
 ```php
-boolean TTSV_GenerateFile(interger $InstanceID, string $Text, string $Filename);
-boolean TTSV_GenerateFileEx(interger $InstanceID, string $Text, string $Filename, string $Format, string $Codec, string $Language)
+boolean TTSV_GenerateFile(integer $InstanceID, string $Text, string $Filename);
+boolean TTSV_GenerateFileEx(integer $InstanceID, string $Text, string $Filename, string $Format, string $Codec, string $Language)
 ```
  Erzeugt eine Audiodatei.  
  Wird kein absoluter Pfad bei `$Filename` angegeben, so wird die Datei im Script-Ordner von IPS gespeichert.
@@ -47,8 +47,8 @@ boolean TTSV_GenerateFileEx(interger $InstanceID, string $Text, string $Filename
  Die Funktionen liefern `True` bei Erfolg.
 
 ```php
-string TTSV_GetDataContent(interger $InstanceID, string $Text);
-string TTSV_GetDataContent(interger $InstanceID, string $Text, string $Format, string $Codec, string $Language)
+string TTSV_GetDataContent(integer $InstanceID, string $Text);
+string TTSV_GetDataContent(integer $InstanceID, string $Text, string $Format, string $Codec, string $Language)
 ```
  Erzeugt Rohdaten zur weiterverarbeitung.  
  Beispiel:
@@ -65,8 +65,8 @@ IPS_SetName($MediaID, "Test");
 ```
 
 ```php
-integer TTSV_GenerateMediaObject(interger $InstanceID, string $Text, integer $MediaID);
-integer TTSV_GenerateMediaObjectEx(interger $InstanceID, string $Text, integer $MediaID, string $Format, string $Codec, string $Language)
+integer TTSV_GenerateMediaObject(integer $InstanceID, string $Text, integer $MediaID);
+integer TTSV_GenerateMediaObjectEx(integer $InstanceID, string $Text, integer $MediaID, string $Format, string $Codec, string $Language)
 ```
 
 - Wird als $MediaID eine ID eines vorhandenes MedienObject übergeben, so wird Dieses mit den Audiodaten gefüllt.
