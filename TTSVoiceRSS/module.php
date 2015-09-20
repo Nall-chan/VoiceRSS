@@ -11,14 +11,13 @@ class TTSVoiceRSS extends IPSModule
         $this->RegisterPropertyString('Language', 'de-de');
         $this->RegisterPropertyString('Codec', 'MP3');
         $this->RegisterPropertyString('Sample', '8khz_8bit_mono');
-        IPS_SetInfo($this->InstanceID,'Register at http://www.voicerss.org/');
+        IPS_SetInfo($this->InstanceID, 'Register at http://www.voicerss.org/');
     }
 
     public function ApplyChanges()
     {
         //Never delete this line!
         parent::ApplyChanges();
-        
     }
 
 ################## PUBLIC
@@ -33,11 +32,13 @@ class TTSVoiceRSS extends IPSModule
         $Format = $this->ReadPropertyString('Sample');
         $Codec = $this->ReadPropertyString('Codec');
         $Language = $this->ReadPropertyString('Language');
-        return $this->LoadTTSFile($Text, $Filename, 0, $Format, $Codec, $Language, false);
+        return $this->GenerateFileEx($Text, $Filename, $Format, $Codec, $Language);
     }
 
     public function GenerateFileEx(string $Text, string $Filename, string $Format, string $Codec, string $Language)
     {
+        if ((strpos($Filename, '.' . strtolower($Codec))) === false)
+            $Filename .='.' . strtolower($Codec);
         return $this->LoadTTSFile($Text, $Filename, 0, $Format, $Codec, $Language, false);
     }
 
@@ -46,12 +47,48 @@ class TTSVoiceRSS extends IPSModule
         $Format = $this->ReadPropertyString('Sample');
         $Codec = $this->ReadPropertyString('Codec');
         $Language = $this->ReadPropertyString('Language');
-        return $this->LoadTTSFile($Text, '', 0, $Format, $Codec, $Language, true);
+        return $this->GetDataContentEx($Text, $Format, $Codec, $Language);
     }
 
     public function GetDataContentEx(string $Text, string $Format, string $Codec, string $Language)
     {
         return $this->LoadTTSFile($Text, '', 0, $Format, $Codec, $Language, true);
+    }
+
+    public function GenerateMediaObject(string $Text, integer $MediaID)
+    {
+
+        $Format = $this->ReadPropertyString('Sample');
+        $Codec = $this->ReadPropertyString('Codec');
+        $Language = $this->ReadPropertyString('Language');
+        return $this->GenerateMediaObjectEx($Text, $MediaID, $Format, $Codec, $Language);
+    }
+
+    public function GenerateMediaObjectEx(string $Text, integer $MediaID, string $Format, string $Codec, string $Language)
+    {
+
+        if ($MediaID == 0)
+            $MediaID = IPS_CreateMedia(2);
+        else
+        {
+            if (IPS_MediaExists($MediaID) === false)
+                throw new Exception('MediaObject not exists.');
+            if (IPS_GetMedia($MediaID)['MediaType'] <> 2)
+                throw new Exception('Wrong MediaType');
+        }
+        $Filename = 'media' . DIRECTORY_SEPARATOR . $MediaID . '.' . strtolower($Codec);
+
+        try
+        {
+            $raw = $this->LoadTTSFile($Text, '', 0, $Format, $Codec, $Language, true);
+        } catch (Exception $exc)
+        {
+            IPS_DeleteMedia($MediaID, FALSE);
+            throw $exc;
+        }
+        IPS_SetMediaFile($MediaID, $Filename, False);
+        IPS_SetMediaContent($MediaID, base64_encode($raw));
+        return $MediaID;
     }
 
 ################## PRIVATE    
@@ -67,7 +104,7 @@ class TTSVoiceRSS extends IPSModule
         $ApiData['r'] = $Speed;
         $ApiData['c'] = $Codec;
         $ApiData['f'] = $Format;
-        
+
         $header[] = "Accept: */*";
         $header[] = "Cache-Control: max-age=0";
         $header[] = "Connection: close";
@@ -83,7 +120,7 @@ class TTSVoiceRSS extends IPSModule
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 3000);
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 3000);
-        
+
         $result = curl_exec($ch);
         curl_close($ch);
         if ($result === false)
@@ -96,12 +133,10 @@ class TTSVoiceRSS extends IPSModule
         {
             $fh = fopen($Filename, 'w');
             fwrite($fh, $result);
-        }
-        catch (Exception $exc)
+        } catch (Exception $exc)
         {
             
-        }
-        finally
+        } finally
         {
             fclose($fh);
         }
