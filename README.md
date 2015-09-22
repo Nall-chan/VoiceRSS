@@ -45,7 +45,7 @@ boolean TTSV_GenerateFileEx(integer $InstanceID, string $Text, string $Filename,
  Wird kein absoluter Pfad bei `$Filename` angegeben, so wird die Datei im Script-Ordner von IPS gespeichert.
  Wird keine korrekte Dateiendung übergeben, so wird Diese ergänzt.
  Die Funktionen liefern `True` bei Erfolg.
-
+---
 ```php
 string TTSV_GetDataContent(integer $InstanceID, string $Text);
 string TTSV_GetDataContent(integer $InstanceID, string $Text, string $Format, string $Codec, string $Language)
@@ -63,7 +63,7 @@ IPS_SetMediaFile($MediaID, "Test.mp3", false);
 IPS_SetMediaContent($MediaID,base64_encode($data));
 IPS_SetName($MediaID, "Test");
 ```
-
+---
 ```php
 integer TTSV_GenerateMediaObject(integer $InstanceID, string $Text, integer $MediaID);
 integer TTSV_GenerateMediaObjectEx(integer $InstanceID, string $Text, integer $MediaID, string $Format, string $Codec, string $Language)
@@ -76,6 +76,19 @@ integer TTSV_GenerateMediaObjectEx(integer $InstanceID, string $Text, integer $M
 
 **GUID's:**  
  `{133A6F0D-464E-4FAD-8620-02DB0AB9BFD1}`
+
+**Konfiguration:**
+
+| Eigenschaft | Typ    | Standardwert   | Funktion                           |
+| :---------: | :----: | :------------: | :------------------: |
+| Apikey      | string |                | Api-Key von VoiceRSS |
+| Language    | string | de-de          | Sprache              |
+| Codec       | string | MP3            | Audio-Format         |
+| Sample      | string | 8khz_8bit_mono | Samplerate           |
+
+Erlaubte Parameter siehe:
+[VoiceRSS API](http://www.voicerss.org/api/documentation.aspx)
+
 
 **Changelog:**  
  Version 1.0:
