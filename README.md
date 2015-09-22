@@ -44,8 +44,10 @@ boolean TTSV_GenerateFileEx(integer $InstanceID, string $Text, string $Filename,
  Erzeugt eine Audiodatei.  
  Wird kein absoluter Pfad bei `$Filename` angegeben, so wird die Datei im Script-Ordner von IPS gespeichert.
  Wird keine korrekte Dateiendung übergeben, so wird Diese ergänzt.
- Die Funktionen liefern `True` bei Erfolg.
----
+ Die Funktionen liefern `True` bei Erfolg.  
+
+---  
+
 ```php
 string TTSV_GetDataContent(integer $InstanceID, string $Text);
 string TTSV_GetDataContent(integer $InstanceID, string $Text, string $Format, string $Codec, string $Language)
@@ -62,8 +64,10 @@ IPS_SetMediaFile($MediaID, "Test.mp3", false);
 // Inhalt von $data in das MedienObject schreiben.
 IPS_SetMediaContent($MediaID,base64_encode($data));
 IPS_SetName($MediaID, "Test");
-```
----
+```  
+
+---  
+
 ```php
 integer TTSV_GenerateMediaObject(integer $InstanceID, string $Text, integer $MediaID);
 integer TTSV_GenerateMediaObjectEx(integer $InstanceID, string $Text, integer $MediaID, string $Format, string $Codec, string $Language)
