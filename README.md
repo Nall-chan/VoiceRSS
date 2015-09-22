@@ -31,7 +31,7 @@ Free bei max. 350 Anfragen pro Tag.
    - Installation in IPS 4.x  
         Über das 'Modul Control' folgende URL hinzufügen:  
         `git://github.com/Nall-chan/IPSVoiceRSS.git`  
-   - Konfiguration
+   - Konfiguration  
         Der persönliche API-Key muss in der Instanz eingetragen werden.  
         Die reslichen Einstellungen sind die Default-Werte für die Standard Funktionen.
 
