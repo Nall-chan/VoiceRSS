@@ -72,23 +72,29 @@ class TTSVoiceRSS extends IPSModule
         if ($MediaID > 0)
         {
             if (IPS_MediaExists($MediaID) === false)
-                throw new Exception('MediaObject not exists.');
+                trigger_error('MediaObject not exists.', E_USER_NOTICE);
+            return false;
             if (IPS_GetMedia($MediaID)['MediaType'] <> 2)
-                throw new Exception('Wrong MediaType');
+                trigger_error('Wrong MediaType', E_USER_NOTICE);
+            return false;
         }
+
+        $raw = $this->LoadTTSFile($Text, '', 0, $Format, $Codec, $Language, true);
+
+        if ($raw === false)
+            return false;
+
         if ($MediaID === false)
         {
             $MediaID = IPS_CreateMedia(2);
-            IPS_SetMediaCached($MediaID,true);
+            IPS_SetMediaCached($MediaID, true);
             IPS_SetName($MediaID, 'Voice');
-            IPS_SetParent($MediaID,  $this->InstanceID);
+            IPS_SetParent($MediaID, $this->InstanceID);
             IPS_SetIdent($MediaID, 'Voice');
         }
 
         $Filename = 'media' . DIRECTORY_SEPARATOR . $MediaID . '.' . strtolower($Codec);
-
-        $raw = $this->LoadTTSFile($Text, '', 0, $Format, $Codec, $Language, true);
-
+        
         IPS_SetMediaFile($MediaID, $Filename, False);
         IPS_SetMediaContent($MediaID, base64_encode($raw));
         IPS_SetInfo($MediaID, $Text);
@@ -100,7 +106,10 @@ class TTSVoiceRSS extends IPSModule
     protected function LoadTTSFile(string $Text, string $Filename, integer $Speed, string $Format, string $Codec, string $Language, boolean $raw)
     {
         if (trim($Text) == '')
-            throw new Exception('Text is empty');
+        {
+            trigger_error('Text is empty',E_USER_NOTICE);
+            return false;
+        }
 
         $ApiData['key'] = $this->ReadPropertyString('Apikey');
         $ApiData['src'] = $Text;
@@ -128,8 +137,10 @@ class TTSVoiceRSS extends IPSModule
         $result = curl_exec($ch);
         curl_close($ch);
         if ($result === false)
-            throw new Exception("Error on get VoiceData");
-
+        {
+            trigger_error("Error on get VoiceData",E_USER_NOTICE);
+            return false;
+        }
         If ($raw)
             return $result;
 
@@ -139,14 +150,11 @@ class TTSVoiceRSS extends IPSModule
             fwrite($fh, $result);
         } catch (Exception $exc)
         {
-            
-        } finally
-        {
-            fclose($fh);
+            fclose($fh);            
+            trigger_error($exc->getMessage(),E_USER_NOTICE);
+            return false;
         }
-        if (isset($exc))
-            throw new Exception($exc);
-
+        fclose($fh);            
         return true;
     }
 
