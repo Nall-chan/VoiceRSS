@@ -133,7 +133,8 @@ class TTSVoiceRSS extends IPSModule
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 3000);
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 3000);
-
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        
         $result = curl_exec($ch);
         curl_close($ch);
         if ($result === false)
