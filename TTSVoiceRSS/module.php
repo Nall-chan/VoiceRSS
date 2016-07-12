@@ -14,6 +14,16 @@ class TTSVoiceRSS extends IPSModule
         IPS_SetInfo($this->InstanceID, 'Register at http://www.voicerss.org/');
     }
 
+    public function Destroy()
+    {
+        $MediaID = @IPS_GetObjectIDByIdent('Voice', $this->InstanceID);
+        if ($MediaID > 0)
+        {
+            IPS_DeleteMedia($MediaID, true);
+        }
+        parent::Destroy();
+    }
+
     public function ApplyChanges()
     {
         //Never delete this line!
@@ -55,7 +65,7 @@ class TTSVoiceRSS extends IPSModule
         return $this->LoadTTSFile($Text, '', 0, $Format, $Codec, $Language, true);
     }
 
-    public function GenerateMediaObject(string $Text, integer $MediaID)
+    public function GenerateMediaObject(string $Text, int $MediaID)
     {
 
         $Format = $this->ReadPropertyString('Sample');
@@ -64,7 +74,7 @@ class TTSVoiceRSS extends IPSModule
         return $this->GenerateMediaObjectEx($Text, $MediaID, $Format, $Codec, $Language);
     }
 
-    public function GenerateMediaObjectEx(string $Text, integer $MediaID, string $Format, string $Codec, string $Language)
+    public function GenerateMediaObjectEx(string $Text, int $MediaID, string $Format, string $Codec, string $Language)
     {
 
         if ($MediaID == 0)
@@ -94,7 +104,7 @@ class TTSVoiceRSS extends IPSModule
         }
 
         $Filename = 'media' . DIRECTORY_SEPARATOR . $MediaID . '.' . strtolower($Codec);
-        
+
         IPS_SetMediaFile($MediaID, $Filename, False);
         IPS_SetMediaContent($MediaID, base64_encode($raw));
         IPS_SetInfo($MediaID, $Text);
@@ -103,11 +113,11 @@ class TTSVoiceRSS extends IPSModule
 
 ################## PRIVATE    
 
-    protected function LoadTTSFile(string $Text, string $Filename, integer $Speed, string $Format, string $Codec, string $Language, boolean $raw)
+    protected function LoadTTSFile(string $Text, string $Filename, int $Speed, string $Format, string $Codec, string $Language, bool $raw)
     {
         if (trim($Text) == '')
         {
-            trigger_error('Text is empty',E_USER_NOTICE);
+            trigger_error('Text is empty', E_USER_NOTICE);
             return false;
         }
 
@@ -134,12 +144,12 @@ class TTSVoiceRSS extends IPSModule
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 3000);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        
+
         $result = curl_exec($ch);
         curl_close($ch);
         if ($result === false)
         {
-            trigger_error("Error on get VoiceData",E_USER_NOTICE);
+            trigger_error("Error on get VoiceData", E_USER_NOTICE);
             return false;
         }
         If ($raw)
@@ -149,13 +159,14 @@ class TTSVoiceRSS extends IPSModule
         {
             $fh = fopen($Filename, 'w');
             fwrite($fh, $result);
-        } catch (Exception $exc)
+        }
+        catch (Exception $exc)
         {
-            fclose($fh);            
-            trigger_error($exc->getMessage(),E_USER_NOTICE);
+            fclose($fh);
+            trigger_error($exc->getMessage(), E_USER_NOTICE);
             return false;
         }
-        fclose($fh);            
+        fclose($fh);
         return true;
     }
 
