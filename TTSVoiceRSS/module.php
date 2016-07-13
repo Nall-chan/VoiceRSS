@@ -16,12 +16,15 @@ class TTSVoiceRSS extends IPSModule
 
     public function Destroy()
     {
-        $MediaID = @IPS_GetObjectIDByIdent('Voice', $this->InstanceID);
-        if ($MediaID > 0)
-        {
-            IPS_DeleteMedia($MediaID, true);
-        }
         parent::Destroy();
+        if (IPS_GetKernelRunlevel() == 10103)
+        {
+            $MediaID = @IPS_GetObjectIDByIdent('Voice', $this->InstanceID);
+            if ($MediaID > 0)
+            {
+                IPS_DeleteMedia($MediaID, true);
+            }
+        }
     }
 
     public function ApplyChanges()
