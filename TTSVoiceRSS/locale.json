@@ -1,0 +1,11 @@
+{
+    "translations": {
+        "de": {
+            "Apikey": "Api-Key",
+            "Language": "Sprache",
+            "German": "Deutsch",
+            "Codec": "Format",
+            "Samplerate": "Samplerate"
+        }
+    }
+}

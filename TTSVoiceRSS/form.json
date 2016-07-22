@@ -4,12 +4,12 @@
                 {
                     "name": "Apikey",
                     "type": "ValidationTextBox",
-                    "caption": "Api-Key"
+                    "caption": "Apikey"
                 },
                 {
                     "name": "Language",
                     "type": "Select",
-                    "caption": "Sprache",
+                    "caption": "Language",
                     "options":
                             [
                                 {
@@ -121,7 +121,7 @@
                 {
                     "name": "Codec",
                     "type": "Select",
-                    "caption": "Format",
+                    "caption": "Codec",
                     "options":
                             [
                                 {
