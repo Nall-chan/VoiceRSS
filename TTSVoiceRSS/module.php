@@ -146,7 +146,16 @@ class TTSVoiceRSS extends IPSModule
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 3000);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
+        $this->SendDebug('DoWebrequest', $Text, 0);
         $result = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($http_code >= 400)
+        {
+            $this->SendDebug('Webrequest Error', $http_code, 0);
+            $result = false;
+        }
+        else
+            $this->SendDebug('Webrequest Result', $http_code, 0);
         curl_close($ch);
         if ($result === false)
         {
@@ -163,7 +172,7 @@ class TTSVoiceRSS extends IPSModule
         }
         catch (Exception $exc)
         {
-            fclose($fh);
+            @fclose($fh);
             trigger_error($exc->getMessage(), E_USER_NOTICE);
             return false;
         }
