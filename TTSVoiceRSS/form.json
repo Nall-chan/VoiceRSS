@@ -368,5 +368,18 @@
             ],
     "actions":
             [
+            ],
+    "status":
+            [
+                {
+                    "code": 102,
+                    "icon": "active",
+                    "caption": "active"
+                },
+                {
+                    "code": 104,
+                    "icon": "inactive",
+                    "caption": "no Api-Key"
+                }
             ]
 }

@@ -5,7 +5,9 @@
             "Language": "Sprache",
             "German": "Deutsch",
             "Codec": "Format",
-            "Samplerate": "Samplerate"
+            "Samplerate": "Samplerate",
+            "active": "Aktiv",
+            "no Api-Key": "Kein Api-Key gesetzt"
         }
     }
 }

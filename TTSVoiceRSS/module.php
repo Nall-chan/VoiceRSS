@@ -29,6 +29,10 @@ class TTSVoiceRSS extends IPSModule
     {
         //Never delete this line!
         parent::ApplyChanges();
+        if (trim($this->ReadPropertyString('Apikey')) == "")
+            $this->SetStatus(104);
+        else
+            $this->SetStatus(102);
     }
 
 ################## PUBLIC
@@ -116,6 +120,14 @@ class TTSVoiceRSS extends IPSModule
 
     protected function LoadTTSFile(string $Text, string $Filename, int $Speed, string $Format, string $Codec, string $Language, bool $raw)
     {
+        if (trim($this->ReadPropertyString('Apikey')) == "")
+        {
+            $this->SetStatus(104);
+            $this->SendDebug('Api-Key Error', 'Api-Key not set.', 0);
+            trigger_error('Api-Key not set.', E_USER_NOTICE);
+            return false;
+        }
+
         if (trim($Text) == '')
         {
             trigger_error('Text is empty', E_USER_NOTICE);
@@ -123,6 +135,7 @@ class TTSVoiceRSS extends IPSModule
         }
 
         $ApiData['key'] = $this->ReadPropertyString('Apikey');
+
         $ApiData['src'] = $Text;
         $ApiData['hl'] = $Language;
         $ApiData['r'] = $Speed;
@@ -157,6 +170,13 @@ class TTSVoiceRSS extends IPSModule
         else
             $this->SendDebug('Webrequest Result', $http_code, 0);
         curl_close($ch);
+
+        if (substr($result, 0, 5) == 'ERROR')
+        {
+            $this->SendDebug('ERROR', substr($result, 7), 0);
+            $result = false;
+        }
+
         if ($result === false)
         {
             trigger_error("Error on get VoiceData", E_USER_NOTICE);
