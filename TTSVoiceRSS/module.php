@@ -33,6 +33,12 @@ class TTSVoiceRSS extends IPSModule
             $this->SetStatus(104);
         else
             $this->SetStatus(102);
+
+        if (trim($this->ReadPropertyString('Apikey')) <> $this->ReadPropertyString('Apikey'))
+        {
+            @IPS_SetProperty($this->InstanceID, 'Apikey', trim($this->ReadPropertyString('Apikey')));
+            @IPS_ApplyChanges($this->InstanceID);
+        }
     }
 
 ################## PUBLIC
