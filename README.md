@@ -12,28 +12,35 @@ Free bei max. 350 Anfragen pro Tag.
 3. [Installation & Konfiguration](#3-installation--konfiguration)
 4. [Funktionsreferenz](#4-funktionsreferenz) 
 5. [Anhang](#5-anhang)
+6. [Lizenz](#6-lizenz)
 
 ## 1. Funktionsumfang
 
  Über die API von VoiceRSS wird ein Text in das gesprochene Wort überführt.  
 
- Dieses Modul ermöglicht es, die von VoicRSS erzeugten Audio-Daten in verschiedener Art zu nutzen.
- Es kann eine entsprechende Audio-Datei erzeugt werden, oder ein IPS-MedienObjekt verwendet werden.
- Des weiteren können auch Roh-Daten erzeugt werden.
+ Dieses Modul ermöglicht es, die von VoicRSS erzeugten Audio-Daten in verschiedener Art zu nutzen.  
+ Es kann eine entsprechende Audio-Datei erzeugt werden, oder ein IPS-MedienObjekt verwendet werden.  
+ Des weiteren können auch Roh-Daten erzeugt werden.  
 
 ## 2. Voraussetzungen
 
- - IPS 4.x
- - Registrierung bei [VoiceRSS](http://www.voicerss.org/ )
+ - IPS 4.x  
+ - Registrierung bei [VoiceRSS](http://www.voicerss.org/)  
  
 ## 3. Installation & Konfiguration
 
    - Installation in IPS 4.x  
         Über das 'Modul Control' folgende URL hinzufügen:  
         `git://github.com/Nall-chan/IPSVoiceRSS.git`  
+
+   - Instanz erstellen  
+        Im Dialog Instanz hinzufügen, ist das Modul unter dem Hersteller VoiceRSS zu finden.  
+
    - Konfiguration  
         Der persönliche API-Key muss in der Instanz eingetragen werden.  
-        Die reslichen Einstellungen sind die Default-Werte für die Standard Funktionen.
+        Die reslichen Einstellungen sind die Default-Werte für die Standard Funktionen.  
+
+   **Bei kommerzieller Nutzung (z.B. als Errichter oder Integrator) wenden Sie sich bitte an den Autor.**  
 
 ## 4. Funktionsreferenz
 
@@ -53,12 +60,15 @@ string TTSV_GetDataContent(integer $InstanceID, string $Text);
 string TTSV_GetDataContent(integer $InstanceID, string $Text, string $Format, string $Codec, string $Language)
 ```
  Erzeugt Rohdaten zur weiterverarbeitung.  
+ Im Fehlerfall wird false zurückgegeben.
  Beispiel:
   In ein Medienobject schreiben:
 
    ```php
 // Daten holen und in $data speichern.
-$data = TTSV_GetDataContent(40811,"Hallo Welt.");
+$data = @TTSV_GetDataContent(40811,"Hallo Welt.");
+if ($data === false)
+    die("Konnte Daten nicht laden");
 $MediaID =IPS_CreateMedia(2);
 IPS_SetMediaFile($MediaID, "Test.mp3", false);
 // Inhalt von $data in das MedienObject schreiben.
@@ -72,9 +82,12 @@ IPS_SetName($MediaID, "Test");
 integer TTSV_GenerateMediaObject(integer $InstanceID, string $Text, integer $MediaID);
 integer TTSV_GenerateMediaObjectEx(integer $InstanceID, string $Text, integer $MediaID, string $Format, string $Codec, string $Language)
 ```
-
+Erzeugt/befüllt ein MedienObject im logischen Baum von IPS.  
 - Wird als $MediaID eine ID eines vorhandenes MedienObject übergeben, so wird Dieses mit den Audiodaten gefüllt.
 - Wird als $MediaID eine `0` übergeben, so wird unterhalb der VoiceRSS-Instanz ein MedienObject verwendet.
+
+Der Rückgabewert ist die ID des befüllten Media-Objektes.  
+Oder false im Fehlerfall.  
 
 ## 5. Anhang
 
@@ -95,5 +108,13 @@ Erlaubte Parameter siehe:
 
 
 **Changelog:**  
- Version 1.0:
-  - Erstes Release
+
+ Version 1.01:  
+  - Doku ergänzt.
+
+ Version 1.0:  
+  - Erstes Release  
+
+## 6. Lizenz
+
+  [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)  

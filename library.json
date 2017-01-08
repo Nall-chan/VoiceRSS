@@ -1,9 +1,13 @@
 {
-	"id": "{451A061A-7498-4A07-9731-1D9DA78CF846}",
-	"author": "Michael Tröger",
-	"name": "TTS VoiceRSS Library",
-	"url": "git.nall-chan.net",
-	"version": "1.0",
-	"build": 0,
-	"date": 0
+    "id": "{451A061A-7498-4A07-9731-1D9DA78CF846}",
+    "author": "Michael Tr\u00f6ger",
+    "name": "TTS VoiceRSS Library",
+    "url": "https://github.com/Nall-chan/IPSVoiceRSS",
+    "version": "1.01",
+    "build": 101,
+    "date": 1483732390,
+    "title": "Online-TTS Engine von VoiceRSS in IPS nutzen",
+    "description": "Über die API von VoiceRSS wird ein Text in das gesprochene Wort überführt.",
+    "tags": ["Sprachausgabe", "TTS", "VoiceRSS", "Sprache", "Text-to-speech"],
+    "req_ips_version": "4.0"
 }
