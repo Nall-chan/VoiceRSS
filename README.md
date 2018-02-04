@@ -2,6 +2,7 @@
 [Version](https://img.shields.io/badge/Modul%20Version-2.02-blue.svg)]
 [![Version](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [Version](https://img.shields.io/badge/Symcon%20Version-4.0%20%3E-green.svg)
+[![StyleCI](https://styleci.io/repos/41701154/shield?style=flat)](https://styleci.io/repos/41701154)  
 
 # IPSVoiceRSS
 
