@@ -1,11 +1,10 @@
-[![Version](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-![Version](https://img.shields.io/badge/Modul%20Version-2.02-blue.svg)
-[![Version](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-![Version](https://img.shields.io/badge/Symcon%20Version-4.0%20%3E-green.svg)
+[![SDK](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
+[![Version](https://img.shields.io/badge/Modul%20Version-2.00-blue.svg)]()
+[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)  
+[![Version](https://img.shields.io/badge/Symcon%20Version-5.1%20%3E-green.svg)](https://www.symcon.de/forum/threads/30857-IP-Symcon-5-1-%28Stable%29-Changelog)
 [![StyleCI](https://styleci.io/repos/41701154/shield?style=flat)](https://styleci.io/repos/41701154)  
 
-# IPSVoiceRSS
-
+# Symcon-Modul: VoiceRSS
 Online-TTS Engine von VoiceRSS in IPS nutzen.
 Free bei max. 350 Anfragen pro Tag.
 
@@ -30,14 +29,13 @@ Free bei max. 350 Anfragen pro Tag.
 
 ## 2. Voraussetzungen
 
- - IPS 4.x  
+ - IPS 5.1  
  - Registrierung bei [VoiceRSS](http://www.voicerss.org/)  
  
 ## 3. Installation & Konfiguration
 
-   - Installation in IPS 4.x  
-        Über das 'Modul Control' folgende URL hinzufügen:  
-        `git://github.com/Nall-chan/IPSVoiceRSS.git`  
+   - Installation in IPS 5.1  
+        Über den 'Module-Store' in IPS.  
 
    - Instanz erstellen  
         Im Dialog Instanz hinzufügen, ist das Modul unter dem Hersteller VoiceRSS zu finden.  
@@ -114,6 +112,9 @@ Erlaubte Parameter siehe:
 
 
 **Changelog:**  
+
+ Version 2.0:  
+  - Release für IPS 5.1 und den Module-Store   
 
  Version 1.01:  
   - Doku ergänzt.

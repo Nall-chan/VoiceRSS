@@ -3,11 +3,10 @@
     "author": "Michael Tr\u00f6ger",
     "name": "TTS VoiceRSS Library",
     "url": "https://github.com/Nall-chan/IPSVoiceRSS",
-    "version": "1.01",
-    "build": 101,
-    "date": 1483732390,
-    "title": "Online-TTS Engine von VoiceRSS in IPS nutzen",
-    "description": "Über die API von VoiceRSS wird ein Text in das gesprochene Wort überführt.",
-    "tags": ["Sprachausgabe", "TTS", "VoiceRSS", "Sprache", "Text-to-speech"],
-    "req_ips_version": "4.0"
+    "version": "2.0",
+    "build": 120,
+    "date": 1556987178,
+    "compatibility": {
+        "version": "5.1"
+    }
 }

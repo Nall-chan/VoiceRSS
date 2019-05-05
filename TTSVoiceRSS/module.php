@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * @addtogroup ttsvoicerss
  * @{
@@ -7,9 +9,9 @@
  * @package       TTSVoiceRSS
  * @file          module.php
  * @author        Michael Tröger <micha@nall-chan.net>
- * @copyright     2016 Michael Tröger
+ * @copyright     2019 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
- * @version       1.01
+ * @version       2.0
  */
 
 /**
@@ -19,7 +21,6 @@
  */
 class TTSVoiceRSS extends IPSModule
 {
-
     /**
      * Interne Funktion des SDK.
      *
@@ -43,13 +44,16 @@ class TTSVoiceRSS extends IPSModule
      */
     public function Destroy()
     {
-        if (IPS_GetKernelRunlevel() <> 10103) {
-            return;
+
+        if (IPS_GetKernelRunlevel() == KR_READY) {
+            if (!IPS_InstanceExists($this->InstanceID)) {
+                $MediaID = @IPS_GetObjectIDByIdent('Voice', $this->InstanceID);
+                if ($MediaID > 0) {
+                    IPS_DeleteMedia($MediaID, true);
+                }
+            }
         }
-        $MediaID = @IPS_GetObjectIDByIdent('Voice', $this->InstanceID);
-        if ($MediaID > 0) {
-            IPS_DeleteMedia($MediaID, true);
-        }
+
         parent::Destroy();
     }
 
@@ -62,7 +66,7 @@ class TTSVoiceRSS extends IPSModule
     {
         //Never delete this line!
         parent::ApplyChanges();
-        if (trim($this->ReadPropertyString('Apikey')) == "") {
+        if (trim($this->ReadPropertyString('Apikey')) == '') {
             $this->SetStatus(104);
         } else {
             $this->SetStatus(102);
@@ -75,7 +79,6 @@ class TTSVoiceRSS extends IPSModule
     }
 
     ################## PUBLIC
-
     /**
      * IPS-Instanz-Funktion 'TTSV_GenerateFile'
      * Erzeugt eine Audiodatei.
@@ -106,7 +109,7 @@ class TTSVoiceRSS extends IPSModule
     public function GenerateFileEx(string $Text, string $Filename, string $Format, string $Codec, string $Language)
     {
         if ((strpos($Filename, '.' . strtolower($Codec))) === false) {
-            $Filename .='.' . strtolower($Codec);
+            $Filename .= '.' . strtolower($Codec);
         }
         return $this->LoadTTSFile($Text, $Filename, 0, $Format, $Codec, $Language, false);
     }
@@ -175,12 +178,12 @@ class TTSVoiceRSS extends IPSModule
         if ($MediaID > 0) {
             if (IPS_MediaExists($MediaID) === false) {
                 trigger_error('MediaObject not exists.', E_USER_NOTICE);
+                return false;
             }
-            return false;
             if (IPS_GetMedia($MediaID)['MediaType'] <> 2) {
                 trigger_error('Wrong MediaType', E_USER_NOTICE);
+                return false;
             }
-            return false;
         }
 
         $raw = $this->LoadTTSFile($Text, '', 0, $Format, $Codec, $Language, true);
@@ -206,7 +209,6 @@ class TTSVoiceRSS extends IPSModule
     }
 
     ################## PRIVATE
-
     /**
      * Übergibt den Text an VoiceRSS und liefert das Ergebnis als String oder Datei.
      *
@@ -221,7 +223,7 @@ class TTSVoiceRSS extends IPSModule
      */
     private function LoadTTSFile(string $Text, string $Filename, int $Speed, string $Format, string $Codec, string $Language, bool $raw)
     {
-        if (trim($this->ReadPropertyString('Apikey')) == "") {
+        if (trim($this->ReadPropertyString('Apikey')) == '') {
             $this->SetStatus(104);
             $this->SendDebug('Api-Key Error', 'Api-Key not set.', 0);
             trigger_error('Api-Key not set.', E_USER_NOTICE);
@@ -241,12 +243,12 @@ class TTSVoiceRSS extends IPSModule
         $ApiData['c'] = $Codec;
         $ApiData['f'] = $Format;
 
-        $header[] = "Accept: */*";
-        $header[] = "Cache-Control: max-age=0";
-        $header[] = "Connection: close";
-        $header[] = "Accept-Charset: UTF-8";
+        $header[] = 'Accept: */*';
+        $header[] = 'Cache-Control: max-age=0';
+        $header[] = 'Connection: close';
+        $header[] = 'Accept-Charset: UTF-8';
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://api.voicerss.org/");
+        curl_setopt($ch, CURLOPT_URL, 'https://api.voicerss.org/');
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
@@ -275,7 +277,7 @@ class TTSVoiceRSS extends IPSModule
         }
 
         if ($result === false) {
-            trigger_error("Error on get VoiceData", E_USER_NOTICE);
+            trigger_error('Error on get VoiceData', E_USER_NOTICE);
             return false;
         }
         if ($raw) {
@@ -293,6 +295,7 @@ class TTSVoiceRSS extends IPSModule
         fclose($fh);
         return true;
     }
+
 }
 
 /** @} */
