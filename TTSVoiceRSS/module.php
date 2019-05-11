@@ -6,25 +6,23 @@ declare(strict_types=1);
  * @addtogroup ttsvoicerss
  * @{
  *
- * @package       TTSVoiceRSS
  * @file          module.php
+ *
  * @author        Michael Tröger <micha@nall-chan.net>
  * @copyright     2019 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
+ *
  * @version       2.0
  */
 
 /**
  * TTSVoiceRSS ist die Klasse für das IPS-Modul 'TTS VoiceRSS'.
- * Erweitert IPSModule
- *
+ * Erweitert IPSModule.
  */
 class TTSVoiceRSS extends IPSModule
 {
     /**
      * Interne Funktion des SDK.
-     *
-     * @access public
      */
     public function Create()
     {
@@ -39,12 +37,9 @@ class TTSVoiceRSS extends IPSModule
 
     /**
      * Interne Funktion des SDK.
-     *
-     * @access public
      */
     public function Destroy()
     {
-
         if (IPS_GetKernelRunlevel() == KR_READY) {
             if (!IPS_InstanceExists($this->InstanceID)) {
                 $MediaID = @IPS_GetObjectIDByIdent('Voice', $this->InstanceID);
@@ -59,8 +54,6 @@ class TTSVoiceRSS extends IPSModule
 
     /**
      * Interne Funktion des SDK.
-     *
-     * @access public
      */
     public function ApplyChanges()
     {
@@ -72,19 +65,21 @@ class TTSVoiceRSS extends IPSModule
             $this->SetStatus(102);
         }
 
-        if (trim($this->ReadPropertyString('Apikey')) <> $this->ReadPropertyString('Apikey')) {
+        if (trim($this->ReadPropertyString('Apikey')) != $this->ReadPropertyString('Apikey')) {
             @IPS_SetProperty($this->InstanceID, 'Apikey', trim($this->ReadPropertyString('Apikey')));
             @IPS_ApplyChanges($this->InstanceID);
         }
     }
 
-    ################## PUBLIC
+    //################# PUBLIC
+
     /**
      * IPS-Instanz-Funktion 'TTSV_GenerateFile'
      * Erzeugt eine Audiodatei.
      *
-     * @param string $Text Der zu erzeugende Text
+     * @param string $Text     Der zu erzeugende Text
      * @param string $Filename Der Dateiname in dem abgespeichert wird.
+     *
      * @return bool True bei Erflog, sonst false.
      */
     public function GenerateFile(string $Text, string $Filename)
@@ -99,11 +94,12 @@ class TTSVoiceRSS extends IPSModule
      * IPS-Instanz-Funktion 'TTSV_GenerateFileEx'
      * Erzeugt eine Audiodatei.
      *
-     * @param string $Text Der zu erzeugende Text
+     * @param string $Text     Der zu erzeugende Text
      * @param string $Filename Der Dateiname in dem abgespeichert wird.
-     * @param string $Format Das Ziel-Format
-     * @param string $Codec Der Ziel-Codec
+     * @param string $Format   Das Ziel-Format
+     * @param string $Codec    Der Ziel-Codec
      * @param string $Language Die zu verwendene Sprache
+     *
      * @return bool True bei Erflog, sonst false.
      */
     public function GenerateFileEx(string $Text, string $Filename, string $Format, string $Codec, string $Language)
@@ -119,6 +115,7 @@ class TTSVoiceRSS extends IPSModule
      * Erzeugt Rohdaten zur weiterverarbeitung.
      *
      * @param string $Text Der zu erzeugende Text
+     *
      * @return string|bool Die Rohdaten der Sprachdatei. False im Fehlerfall.
      */
     public function GetDataContent(string $Text)
@@ -133,10 +130,11 @@ class TTSVoiceRSS extends IPSModule
      * IPS-Instanz-Funktion 'TTSV_GetDataContentEx'
      * Erzeugt Rohdaten zur weiterverarbeitung.
      *
-     * @param string $Text Der zu erzeugende Text
-     * @param string $Format Das Ziel-Format
-     * @param string $Codec Der Ziel-Codec
+     * @param string $Text     Der zu erzeugende Text
+     * @param string $Format   Das Ziel-Format
+     * @param string $Codec    Der Ziel-Codec
      * @param string $Language Die zu verwendene Sprache
+     *
      * @return string|bool Die Rohdaten der Sprachdatei. False im Fehlerfall.
      */
     public function GetDataContentEx(string $Text, string $Format, string $Codec, string $Language)
@@ -148,8 +146,9 @@ class TTSVoiceRSS extends IPSModule
      * IPS-Instanz-Funktion 'TTSV_GenerateMediaObject'
      * Erzeugt/befüllt ein MedienObject im logischen Baum von IPS.
      *
-     * @param string $Text Der zu erzeugende Text
-     * @param int $MediaID IPS-ID des zu befüllenden Media-Objektes.
+     * @param string $Text    Der zu erzeugende Text
+     * @param int    $MediaID IPS-ID des zu befüllenden Media-Objektes.
+     *
      * @return int|bool Die ID des befüllten Media-Objektes. False im Fehlerfall.
      */
     public function GenerateMediaObject(string $Text, int $MediaID)
@@ -163,11 +162,12 @@ class TTSVoiceRSS extends IPSModule
     /** IPS-Instanz-Funktion 'TTSV_GenerateMediaObjectEx'
      * Erzeugt/befüllt ein MedienObject im logischen Baum von IPS.
      *
-     * @param string $Text Der zu erzeugende Text
-     * @param int $MediaID IPS-ID des zu befüllenden Media-Objektes.
-     * @param string $Format Das Ziel-Format
-     * @param string $Codec Der Ziel-Codec
+     * @param string $Text     Der zu erzeugende Text
+     * @param int    $MediaID  IPS-ID des zu befüllenden Media-Objektes.
+     * @param string $Format   Das Ziel-Format
+     * @param string $Codec    Der Ziel-Codec
      * @param string $Language Die zu verwendene Sprache
+     *
      * @return int|bool Die ID des befüllten Media-Objektes. False im Fehlerfall.
      */
     public function GenerateMediaObjectEx(string $Text, int $MediaID, string $Format, string $Codec, string $Language)
@@ -180,7 +180,7 @@ class TTSVoiceRSS extends IPSModule
                 trigger_error('MediaObject not exists.', E_USER_NOTICE);
                 return false;
             }
-            if (IPS_GetMedia($MediaID)['MediaType'] <> 2) {
+            if (IPS_GetMedia($MediaID)['MediaType'] != 2) {
                 trigger_error('Wrong MediaType', E_USER_NOTICE);
                 return false;
             }
@@ -208,17 +208,19 @@ class TTSVoiceRSS extends IPSModule
         return $MediaID;
     }
 
-    ################## PRIVATE
+    //################# PRIVATE
+
     /**
      * Übergibt den Text an VoiceRSS und liefert das Ergebnis als String oder Datei.
      *
-     * @param string $Text Der zu erzeugende Text
+     * @param string $Text     Der zu erzeugende Text
      * @param string $Filename Der Dateiname in dem abgespeichert wird.
-     * @param int $Speed Die Sprachgeschwindigkeit.
-     * @param string $Format Das Ziel-Format
-     * @param string $Codec Der Ziel-Codec
+     * @param int    $Speed    Die Sprachgeschwindigkeit.
+     * @param string $Format   Das Ziel-Format
+     * @param string $Codec    Der Ziel-Codec
      * @param string $Language Die zu verwendene Sprache
-     * @param bool $raw True wenn Rohdaten zurückgegeben werden sollen.
+     * @param bool   $raw      True wenn Rohdaten zurückgegeben werden sollen.
+     *
      * @return string|bool Die Rohdaten der Sprachdatei wenn $raw = true sonst True/False im Erfolg oder Fehlerfall.
      */
     private function LoadTTSFile(string $Text, string $Filename, int $Speed, string $Format, string $Codec, string $Language, bool $raw)
@@ -295,7 +297,6 @@ class TTSVoiceRSS extends IPSModule
         fclose($fh);
         return true;
     }
-
 }
 
-/** @} */
+/* @} */
