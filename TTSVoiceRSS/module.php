@@ -38,23 +38,6 @@ class TTSVoiceRSS extends IPSModule
     /**
      * Interne Funktion des SDK.
      */
-    public function Destroy()
-    {
-        if (IPS_GetKernelRunlevel() == KR_READY) {
-            if (!IPS_InstanceExists($this->InstanceID)) {
-                $MediaID = @IPS_GetObjectIDByIdent('Voice', $this->InstanceID);
-                if ($MediaID > 0) {
-                    IPS_DeleteMedia($MediaID, true);
-                }
-            }
-        }
-
-        parent::Destroy();
-    }
-
-    /**
-     * Interne Funktion des SDK.
-     */
     public function ApplyChanges()
     {
         //Never delete this line!
