@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @copyright     2019 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.0
+ * @version       2.01
  */
 
 /**
@@ -248,23 +248,28 @@ class TTSVoiceRSS extends IPSModule
         $this->SendDebug('DoWebrequest', $Text, 0);
         $result = curl_exec($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
         if ($http_code >= 400) {
             $this->SendDebug('Webrequest Error', $http_code, 0);
             $result = false;
         } else {
             $this->SendDebug('Webrequest Result', $http_code, 0);
         }
+
         curl_close($ch);
 
-        if (substr($result, 0, 5) == 'ERROR') {
-            $this->SendDebug('ERROR', substr($result, 7), 0);
-            $result = false;
+        if ($result !== false) {
+            if (substr($result, 0, 5) == 'ERROR') {
+                $this->SendDebug('ERROR', substr($result, 7), 0);
+                $result = false;
+            }
         }
 
         if ($result === false) {
             trigger_error('Error on get VoiceData', E_USER_NOTICE);
             return false;
         }
+
         if ($raw) {
             return $result;
         }

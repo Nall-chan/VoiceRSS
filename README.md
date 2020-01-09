@@ -1,9 +1,9 @@
-[![SDK](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
-[![Version](https://img.shields.io/badge/Modul%20Version-2.00-blue.svg)]()
-[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)  
-[![Version](https://img.shields.io/badge/Symcon%20Version-5.1%20%3E-green.svg)](https://www.symcon.de/forum/threads/30857-IP-Symcon-5-1-%28Stable%29-Changelog)
-[![StyleCI](https://styleci.io/repos/41701154/shield?style=flat)](https://styleci.io/repos/41701154)  
-
+[![SDK](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/) 
+[![Version 2.01](https://img.shields.io/badge/Modul%20Version-2.01-blue.svg)]() 
+[![Version 5.1](https://img.shields.io/badge/Symcon%20Version-5.1%20%3E-green.svg)](https://www.symcon.de/forum/threads/30857-IP-Symcon-5-1-%28Stable%29-Changelog)  
+[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/) 
+[![Check Style](https://github.com/Nall-chan/IPSVoiceRSS/workflows/Check%20Style/badge.svg)](https://github.com/Nall-chan/IPSVoiceRSS/actions) 
+[![Run Tests](https://github.com/Nall-chan/IPSVoiceRSS/workflows/Run%20Tests/badge.svg)](https://github.com/Nall-chan/IPSVoiceRSS/actions)  
 # Symcon-Modul: VoiceRSS
 Online-TTS Engine von VoiceRSS in IPS nutzen.
 Free bei max. 350 Anfragen pro Tag.
@@ -12,12 +12,14 @@ Free bei max. 350 Anfragen pro Tag.
 
 **Inhaltsverzeichnis**
 
-1. [Funktionsumfang](#1-funktionsumfang) 
-2. [Voraussetzungen](#2-voraussetzungen)
-3. [Installation & Konfiguration](#3-installation--konfiguration)
-4. [Funktionsreferenz](#4-funktionsreferenz) 
-5. [Anhang](#5-anhang)
-6. [Lizenz](#6-lizenz)
+- [Symcon-Modul: VoiceRSS](#symcon-modul-voicerss)
+  - [Dokumentation](#dokumentation)
+  - [1. Funktionsumfang](#1-funktionsumfang)
+  - [2. Voraussetzungen](#2-voraussetzungen)
+  - [3. Installation &amp; Konfiguration](#3-installation-amp-konfiguration)
+  - [4. Funktionsreferenz](#4-funktionsreferenz)
+  - [5. Anhang](#5-anhang)
+  - [6. Lizenz](#6-lizenz)
 
 ## 1. Funktionsumfang
 
@@ -100,18 +102,21 @@ Oder false im Fehlerfall.
 
 **Konfiguration:**
 
-| Eigenschaft | Typ    | Standardwert   | Funktion                           |
+| Eigenschaft |  Typ   |  Standardwert  |       Funktion       |
 | :---------: | :----: | :------------: | :------------------: |
-| Apikey      | string |                | Api-Key von VoiceRSS |
-| Language    | string | de-de          | Sprache              |
-| Codec       | string | MP3            | Audio-Format         |
-| Sample      | string | 8khz_8bit_mono | Samplerate           |
+|   Apikey    | string |                | Api-Key von VoiceRSS |
+|  Language   | string |     de-de      |       Sprache        |
+|    Codec    | string |      MP3       |     Audio-Format     |
+|   Sample    | string | 8khz_8bit_mono |      Samplerate      |
 
 Erlaubte Parameter siehe:
 [VoiceRSS API](http://www.voicerss.org/api/documentation.aspx)
 
 
 **Changelog:**  
+
+ Version 2.1:  
+  - Fehler in der Fehlerbehandlung behoben.  
 
  Version 2.0:  
   - Release für IPS 5.1 und den Module-Store   
