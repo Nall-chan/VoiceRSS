@@ -3,10 +3,12 @@
     "name": "TTSVoiceRSS",
     "type": 0,
     "vendor": "VoiceRSS",
-    "aliases": ["TTS VoiceRSS"],
+    "aliases": [
+        "TTS VoiceRSS"
+    ],
     "parentRequirements": [],
     "childRequirements": [],
     "implemented": [],
     "prefix": "TTSV",
-    "url":"https://github.com/Nall-chan/IPSVoiceRSS/README.md"
+    "url": "https://github.com/Nall-chan/VoiceRSS/"
 }

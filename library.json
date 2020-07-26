@@ -2,10 +2,10 @@
     "id": "{451A061A-7498-4A07-9731-1D9DA78CF846}",
     "author": "Michael Tr\u00f6ger",
     "name": "TTS VoiceRSS Library",
-    "url": "https://github.com/Nall-chan/IPSVoiceRSS",
+    "url": "https://github.com/Nall-chan/VoiceRSS",
     "version": "2.01",
-    "build": 120,
-    "date": 1556987178,
+    "build": 121,
+    "date": 1595786870,
     "compatibility": {
         "version": "5.1"
     }

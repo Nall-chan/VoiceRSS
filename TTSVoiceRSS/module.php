@@ -63,7 +63,7 @@ class TTSVoiceRSS extends IPSModule
      * @param string $Text     Der zu erzeugende Text
      * @param string $Filename Der Dateiname in dem abgespeichert wird.
      *
-     * @return bool True bei Erflog, sonst false.
+     * @return bool True bei Erfolg, sonst false.
      */
     public function GenerateFile(string $Text, string $Filename)
     {
@@ -81,9 +81,9 @@ class TTSVoiceRSS extends IPSModule
      * @param string $Filename Der Dateiname in dem abgespeichert wird.
      * @param string $Format   Das Ziel-Format
      * @param string $Codec    Der Ziel-Codec
-     * @param string $Language Die zu verwendene Sprache
+     * @param string $Language Die zu verwendende Sprache
      *
-     * @return bool True bei Erflog, sonst false.
+     * @return bool True bei Erfolg, sonst false.
      */
     public function GenerateFileEx(string $Text, string $Filename, string $Format, string $Codec, string $Language)
     {
@@ -116,7 +116,7 @@ class TTSVoiceRSS extends IPSModule
      * @param string $Text     Der zu erzeugende Text
      * @param string $Format   Das Ziel-Format
      * @param string $Codec    Der Ziel-Codec
-     * @param string $Language Die zu verwendene Sprache
+     * @param string $Language Die zu verwendende Sprache
      *
      * @return string|bool Die Rohdaten der Sprachdatei. False im Fehlerfall.
      */
@@ -149,7 +149,7 @@ class TTSVoiceRSS extends IPSModule
      * @param int    $MediaID  IPS-ID des zu befüllenden Media-Objektes.
      * @param string $Format   Das Ziel-Format
      * @param string $Codec    Der Ziel-Codec
-     * @param string $Language Die zu verwendene Sprache
+     * @param string $Language Die zu verwendende Sprache
      *
      * @return int|bool Die ID des befüllten Media-Objektes. False im Fehlerfall.
      */
@@ -201,7 +201,7 @@ class TTSVoiceRSS extends IPSModule
      * @param int    $Speed    Die Sprachgeschwindigkeit.
      * @param string $Format   Das Ziel-Format
      * @param string $Codec    Der Ziel-Codec
-     * @param string $Language Die zu verwendene Sprache
+     * @param string $Language Die zu verwendende Sprache
      * @param bool   $raw      True wenn Rohdaten zurückgegeben werden sollen.
      *
      * @return string|bool Die Rohdaten der Sprachdatei wenn $raw = true sonst True/False im Erfolg oder Fehlerfall.

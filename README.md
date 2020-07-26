@@ -2,30 +2,28 @@
 [![Version 2.01](https://img.shields.io/badge/Modul%20Version-2.01-blue.svg)]() 
 [![Version 5.1](https://img.shields.io/badge/Symcon%20Version-5.1%20%3E-green.svg)](https://www.symcon.de/forum/threads/30857-IP-Symcon-5-1-%28Stable%29-Changelog)  
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/) 
-[![Check Style](https://github.com/Nall-chan/IPSVoiceRSS/workflows/Check%20Style/badge.svg)](https://github.com/Nall-chan/IPSVoiceRSS/actions) 
-[![Run Tests](https://github.com/Nall-chan/IPSVoiceRSS/workflows/Run%20Tests/badge.svg)](https://github.com/Nall-chan/IPSVoiceRSS/actions)  
+[![Check Style](https://github.com/Nall-chan/VoiceRSS/workflows/Check%20Style/badge.svg)](https://github.com/Nall-chan/VoiceRSS/actions) 
+[![Run Tests](https://github.com/Nall-chan/VoiceRSS/workflows/Run%20Tests/badge.svg)](https://github.com/Nall-chan/VoiceRSS/actions)  
 # Symcon-Modul: VoiceRSS
 Online-TTS Engine von VoiceRSS in IPS nutzen.
 Free bei max. 350 Anfragen pro Tag.
 
-## Dokumentation
+## Dokumentation <!-- omit in toc -->
 
 **Inhaltsverzeichnis**
 
-- [Symcon-Modul: VoiceRSS](#symcon-modul-voicerss)
-  - [Dokumentation](#dokumentation)
-  - [1. Funktionsumfang](#1-funktionsumfang)
-  - [2. Voraussetzungen](#2-voraussetzungen)
-  - [3. Installation &amp; Konfiguration](#3-installation-amp-konfiguration)
-  - [4. Funktionsreferenz](#4-funktionsreferenz)
-  - [5. Anhang](#5-anhang)
-  - [6. Lizenz](#6-lizenz)
+- [1. Funktionsumfang](#1-funktionsumfang)
+- [2. Voraussetzungen](#2-voraussetzungen)
+- [3. Installation & Konfiguration](#3-installation--konfiguration)
+- [4. Funktionsreferenz](#4-funktionsreferenz)
+- [5. Anhang](#5-anhang)
+- [6. Lizenz](#6-lizenz)
 
 ## 1. Funktionsumfang
 
  Über die API von VoiceRSS wird ein Text in das gesprochene Wort überführt.  
 
- Dieses Modul ermöglicht es, die von VoicRSS erzeugten Audio-Daten in verschiedener Art zu nutzen.  
+ Dieses Modul ermöglicht es, die von VoiceRSS erzeugten Audio-Daten in verschiedener Art zu nutzen.  
  Es kann eine entsprechende Audio-Datei erzeugt werden, oder ein IPS-MedienObjekt verwendet werden.  
  Des weiteren können auch Roh-Daten erzeugt werden.  
 
@@ -44,7 +42,7 @@ Free bei max. 350 Anfragen pro Tag.
 
    - Konfiguration  
         Der persönliche API-Key muss in der Instanz eingetragen werden.  
-        Die reslichen Einstellungen sind die Default-Werte für die Standard Funktionen.  
+        Die restlichen Einstellungen sind die Default-Werte für die Standard Funktionen.  
 
    **Bei kommerzieller Nutzung (z.B. als Errichter oder Integrator) wenden Sie sich bitte an den Autor.**  
 
@@ -68,7 +66,7 @@ string TTSV_GetDataContent(integer $InstanceID, string $Text, string $Format, st
  Erzeugt Rohdaten zur weiterverarbeitung.  
  Im Fehlerfall wird false zurückgegeben.
  Beispiel:
-  In ein Medienobject schreiben:
+  In ein Medienobjekt schreiben:
 
    ```php
 // Daten holen und in $data speichern.
@@ -97,7 +95,7 @@ Oder false im Fehlerfall.
 
 ## 5. Anhang
 
-**GUID's:**  
+**GUID:**  
  `{133A6F0D-464E-4FAD-8620-02DB0AB9BFD1}`
 
 **Konfiguration:**
@@ -127,7 +125,7 @@ Erlaubte Parameter siehe:
  Version 1.0:  
   - Erstes Release  
 
-Die Library ist für die nicht kommzerielle Nutzung kostenlos, Schenkungen als Unterstützung für den Autor werden hier akzeptiert:  
+Die Library ist für die nicht kommerzielle Nutzung kostenlos, Schenkungen als Unterstützung für den Autor werden hier akzeptiert:  
 
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=G2SLW2MEMQZH2" target="_blank"><img src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif" border="0" /></a>
 
