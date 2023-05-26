@@ -12,19 +12,19 @@ declare(strict_types=1);
  * @copyright     2019 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.2
+ * @version       2.21
  */
 
 /**
  * TTSVoiceRSS ist die Klasse für das IPS-Modul 'TTS VoiceRSS'.
  * Erweitert IPSModule.
  */
-class TTSVoiceRSS extends IPSModule
+class TTSVoiceRSS extends IPSModuleStrict
 {
     /**
      * Interne Funktion des SDK.
      */
-    public function Create()
+    public function Create(): void
     {
         //Never delete this line!
         parent::Create();
@@ -41,7 +41,7 @@ class TTSVoiceRSS extends IPSModule
     /**
      * Interne Funktion des SDK.
      */
-    public function ApplyChanges()
+    public function ApplyChanges(): void
     {
         //Never delete this line!
         parent::ApplyChanges();
@@ -63,7 +63,7 @@ class TTSVoiceRSS extends IPSModule
      *
      * @return bool True bei Erfolg, sonst false.
      */
-    public function GenerateFile(string $Text, string $Filename)
+    public function GenerateFile(string $Text, string $Filename): bool
     {
         $Format = $this->ReadPropertyString('Sample');
         $Codec = $this->ReadPropertyString('Codec');
@@ -85,12 +85,12 @@ class TTSVoiceRSS extends IPSModule
      *
      * @return bool True bei Erfolg, sonst false.
      */
-    public function GenerateFileEx(string $Text, string $Filename, string $Format, string $Codec, string $Language, int $Speed, string $Voice)
+    public function GenerateFileEx(string $Text, string $Filename, string $Format, string $Codec, string $Language, int $Speed, string $Voice): bool
     {
         if ((strpos($Filename, '.' . strtolower($Codec))) === false) {
             $Filename .= '.' . strtolower($Codec);
         }
-        return $this->LoadTTSFile($Text, $Filename, $Format, $Codec, $Language, $Speed, $Voice, false);
+        return $this->LoadTTSFile($Text, $Filename, $Format, $Codec, $Language, $Speed, $Voice);
     }
 
     /**
@@ -101,7 +101,7 @@ class TTSVoiceRSS extends IPSModule
      *
      * @return string|bool Die Rohdaten der Sprachdatei. False im Fehlerfall.
      */
-    public function GetDataContent(string $Text)
+    public function GetDataContent(string $Text): false|string
     {
         $Format = $this->ReadPropertyString('Sample');
         $Codec = $this->ReadPropertyString('Codec');
@@ -122,9 +122,13 @@ class TTSVoiceRSS extends IPSModule
      *
      * @return string|bool Die Rohdaten der Sprachdatei. False im Fehlerfall.
      */
-    public function GetDataContentEx(string $Text, string $Format, string $Codec, string $Language, int $Speed, string $Voice)
+    public function GetDataContentEx(string $Text, string $Format, string $Codec, string $Language, int $Speed, string $Voice): false|string
     {
-        return $this->LoadTTSFile($Text, '', $Format, $Codec, $Language, $Speed, $Voice, true);
+        $Result = '';
+        if ($this->LoadTTSFile($Text, '', $Format, $Codec, $Language, $Speed, $Voice, $Result)) {
+            return $Result;
+        }
+        return false;
     }
 
     /**
@@ -136,7 +140,7 @@ class TTSVoiceRSS extends IPSModule
      *
      * @return int|bool Die ID des befüllten Media-Objektes. False im Fehlerfall.
      */
-    public function GenerateMediaObject(string $Text, int $MediaID)
+    public function GenerateMediaObject(string $Text, int $MediaID): false|int
     {
         $Format = $this->ReadPropertyString('Sample');
         $Codec = $this->ReadPropertyString('Codec');
@@ -157,12 +161,12 @@ class TTSVoiceRSS extends IPSModule
      *
      * @return int|bool Die ID des befüllten Media-Objektes. False im Fehlerfall.
      */
-    public function GenerateMediaObjectEx(string $Text, int $MediaID, string $Format, string $Codec, string $Language, int $Speed, string $Voice)
+    public function GenerateMediaObjectEx(string $Text, int $MediaID, string $Format, string $Codec, string $Language, int $Speed, string $Voice): false|int
     {
         if ($MediaID == 0) {
-            $MediaID = @IPS_GetObjectIDByIdent('Voice', $this->InstanceID);
+            $MediaID = $this->FindIDForIdent('Voice');
         }
-        if ($MediaID > 0) {
+        if ($MediaID) {
             if (IPS_MediaExists($MediaID) === false) {
                 trigger_error('MediaObject not exists.', E_USER_NOTICE);
                 return false;
@@ -172,14 +176,11 @@ class TTSVoiceRSS extends IPSModule
                 return false;
             }
         }
-
-        $raw = $this->LoadTTSFile($Text, '', $Format, $Codec, $Language, $Speed, $Voice, true);
-
-        if ($raw === false) {
+        $Result = '';
+        if (!$this->LoadTTSFile($Text, '', $Format, $Codec, $Language, $Speed, $Voice, $Result)) {
             return false;
         }
-
-        if ($MediaID === false) {
+        if (!$MediaID) {
             $MediaID = IPS_CreateMedia(2);
             IPS_SetMediaCached($MediaID, true);
             IPS_SetName($MediaID, 'Voice');
@@ -190,7 +191,7 @@ class TTSVoiceRSS extends IPSModule
         $Filename = 'media' . DIRECTORY_SEPARATOR . $MediaID . '.' . strtolower($Codec);
 
         IPS_SetMediaFile($MediaID, $Filename, false);
-        IPS_SetMediaContent($MediaID, base64_encode($raw));
+        IPS_SetMediaContent($MediaID, base64_encode($Result));
         IPS_SetInfo($MediaID, $Text);
         return $MediaID;
     }
@@ -211,7 +212,7 @@ class TTSVoiceRSS extends IPSModule
      *
      * @return string|bool Die Rohdaten der Sprachdatei wenn $raw = true sonst True/False im Erfolg oder Fehlerfall.
      */
-    private function LoadTTSFile(string $Text, string $Filename, string $Format, string $Codec, string $Language, int $Speed, string $Voice, bool $raw)
+    private function LoadTTSFile(string $Text, string $Filename, string $Format, string $Codec, string $Language, int $Speed, string $Voice, ?string &$raw = null): bool
     {
         if (trim($this->ReadPropertyString('Apikey')) == '') {
             $this->SetStatus(104);
@@ -277,8 +278,9 @@ class TTSVoiceRSS extends IPSModule
             return false;
         }
 
-        if ($raw) {
-            return $result;
+        if ($raw !== null) {
+            $raw = $result;
+            return true;
         }
 
         try {

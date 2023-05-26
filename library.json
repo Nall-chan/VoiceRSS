@@ -3,10 +3,10 @@
     "author": "Michael Tröger",
     "name": "TTS VoiceRSS Library",
     "url": "https://github.com/Nall-chan/VoiceRSS",
-    "version": "2.2",
-    "build": 122,
-    "date": 1685102222,
+    "version": "2.21",
+    "build": 123,
+    "date": 1685108294,
     "compatibility": {
-        "version": "5.1"
+        "version": "7.0"
     }
 }

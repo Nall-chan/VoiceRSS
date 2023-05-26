@@ -1,6 +1,6 @@
 [![SDK](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/) 
-[![Version 2.2](https://img.shields.io/badge/Modul%20Version-2.2-blue.svg)]() 
-[![Version 5.1](https://img.shields.io/badge/Symcon%20Version-5.1%20%3E-green.svg)](https://www.symcon.de/forum/threads/30857-IP-Symcon-5-1-%28Stable%29-Changelog)  
+[![Version 2.21](https://img.shields.io/badge/Modul%20Version-2.21-blue.svg)]() 
+![Version 7.0](https://img.shields.io/badge/Symcon%20Version-7.0%20%3E-green.svg)  
 [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/) 
 [![Check Style](https://github.com/Nall-chan/VoiceRSS/workflows/Check%20Style/badge.svg)](https://github.com/Nall-chan/VoiceRSS/actions) 
 [![Run Tests](https://github.com/Nall-chan/VoiceRSS/workflows/Run%20Tests/badge.svg)](https://github.com/Nall-chan/VoiceRSS/actions)  
@@ -103,12 +103,14 @@ Oder false im Fehlerfall.
 
 **Konfiguration:**
 
-| Eigenschaft |  Typ   |  Standardwert  |       Funktion       |
-| :---------: | :----: | :------------: | :------------------: |
-|   Apikey    | string |                | Api-Key von VoiceRSS |
-|  Language   | string |     de-de      |       Sprache        |
-|    Codec    | string |      MP3       |     Audio-Format     |
-|   Sample    | string | 8khz_8bit_mono |      Samplerate      |
+| Eigenschaft |  Typ   |  Standardwert  |          Funktion           |
+| :---------: | :----: | :------------: | :-------------------------: |
+|   Apikey    | string |                |    Api-Key von VoiceRSS     |
+|  Language   | string |     de-de      |           Sprache           |
+|    Speed    |  int   |       0        | Geschwindigkeit -10 bis +10 |
+|    Voice    | string |                |           Stimme            |
+|    Codec    | string |      MP3       |        Audio-Format         |
+|   Sample    | string | 8khz_8bit_mono |         Samplerate          |
 
 Erlaubte Parameter siehe:
 [VoiceRSS API](http://www.voicerss.org/api/documentation.aspx)
@@ -116,6 +118,9 @@ Erlaubte Parameter siehe:
 
 **Changelog:**  
 
+ Version 2.21:  
+  - Version für IPS 7.0.  
+  
  Version 2.2:  
   - Sprechgeschwindigkeit und Stimme in der Konfiguration ergänzt.  
   - Alle ---Ex Funktionen erwarten jetzt Speed und Voice als Parameter.   
