@@ -1,11 +1,11 @@
 {
     "id": "{451A061A-7498-4A07-9731-1D9DA78CF846}",
-    "author": "Michael Tr\u00f6ger",
+    "author": "Michael Tröger",
     "name": "TTS VoiceRSS Library",
     "url": "https://github.com/Nall-chan/VoiceRSS",
-    "version": "2.01",
-    "build": 121,
-    "date": 1595786870,
+    "version": "2.2",
+    "build": 122,
+    "date": 1685102222,
     "compatibility": {
         "version": "5.1"
     }

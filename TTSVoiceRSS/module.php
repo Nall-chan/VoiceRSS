@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @copyright     2019 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.01
+ * @version       2.2
  */
 
 /**
@@ -30,8 +30,11 @@ class TTSVoiceRSS extends IPSModule
         parent::Create();
         $this->RegisterPropertyString('Apikey', '');
         $this->RegisterPropertyString('Language', 'de-de');
+        $this->RegisterPropertyString('Voice', '');
+        $this->RegisterPropertyInteger('Speed', 0);
         $this->RegisterPropertyString('Codec', 'MP3');
         $this->RegisterPropertyString('Sample', '8khz_8bit_mono');
+
         IPS_SetInfo($this->InstanceID, 'Register at http://www.voicerss.org/');
     }
 
@@ -46,11 +49,6 @@ class TTSVoiceRSS extends IPSModule
             $this->SetStatus(104);
         } else {
             $this->SetStatus(102);
-        }
-
-        if (trim($this->ReadPropertyString('Apikey')) != $this->ReadPropertyString('Apikey')) {
-            @IPS_SetProperty($this->InstanceID, 'Apikey', trim($this->ReadPropertyString('Apikey')));
-            @IPS_ApplyChanges($this->InstanceID);
         }
     }
 
@@ -70,7 +68,9 @@ class TTSVoiceRSS extends IPSModule
         $Format = $this->ReadPropertyString('Sample');
         $Codec = $this->ReadPropertyString('Codec');
         $Language = $this->ReadPropertyString('Language');
-        return $this->GenerateFileEx($Text, $Filename, $Format, $Codec, $Language);
+        $Speed = $this->ReadPropertyInteger('Speed');
+        $Voice = $this->ReadPropertyString('Voice');
+        return $this->GenerateFileEx($Text, $Filename, $Format, $Codec, $Language, $Speed, $Voice);
     }
 
     /**
@@ -85,12 +85,12 @@ class TTSVoiceRSS extends IPSModule
      *
      * @return bool True bei Erfolg, sonst false.
      */
-    public function GenerateFileEx(string $Text, string $Filename, string $Format, string $Codec, string $Language)
+    public function GenerateFileEx(string $Text, string $Filename, string $Format, string $Codec, string $Language, int $Speed, string $Voice)
     {
         if ((strpos($Filename, '.' . strtolower($Codec))) === false) {
             $Filename .= '.' . strtolower($Codec);
         }
-        return $this->LoadTTSFile($Text, $Filename, 0, $Format, $Codec, $Language, false);
+        return $this->LoadTTSFile($Text, $Filename, $Format, $Codec, $Language, $Speed, $Voice, false);
     }
 
     /**
@@ -106,7 +106,9 @@ class TTSVoiceRSS extends IPSModule
         $Format = $this->ReadPropertyString('Sample');
         $Codec = $this->ReadPropertyString('Codec');
         $Language = $this->ReadPropertyString('Language');
-        return $this->GetDataContentEx($Text, $Format, $Codec, $Language);
+        $Speed = $this->ReadPropertyInteger('Speed');
+        $Voice = $this->ReadPropertyString('Voice');
+        return $this->GetDataContentEx($Text, $Format, $Codec, $Language, $Speed, $Voice);
     }
 
     /**
@@ -120,9 +122,9 @@ class TTSVoiceRSS extends IPSModule
      *
      * @return string|bool Die Rohdaten der Sprachdatei. False im Fehlerfall.
      */
-    public function GetDataContentEx(string $Text, string $Format, string $Codec, string $Language)
+    public function GetDataContentEx(string $Text, string $Format, string $Codec, string $Language, int $Speed, string $Voice)
     {
-        return $this->LoadTTSFile($Text, '', 0, $Format, $Codec, $Language, true);
+        return $this->LoadTTSFile($Text, '', $Format, $Codec, $Language, $Speed, $Voice, true);
     }
 
     /**
@@ -139,7 +141,9 @@ class TTSVoiceRSS extends IPSModule
         $Format = $this->ReadPropertyString('Sample');
         $Codec = $this->ReadPropertyString('Codec');
         $Language = $this->ReadPropertyString('Language');
-        return $this->GenerateMediaObjectEx($Text, $MediaID, $Format, $Codec, $Language);
+        $Speed = $this->ReadPropertyInteger('Speed');
+        $Voice = $this->ReadPropertyString('Voice');
+        return $this->GenerateMediaObjectEx($Text, $MediaID, $Format, $Codec, $Language, $Speed, $Voice);
     }
 
     /** IPS-Instanz-Funktion 'TTSV_GenerateMediaObjectEx'
@@ -153,7 +157,7 @@ class TTSVoiceRSS extends IPSModule
      *
      * @return int|bool Die ID des befüllten Media-Objektes. False im Fehlerfall.
      */
-    public function GenerateMediaObjectEx(string $Text, int $MediaID, string $Format, string $Codec, string $Language)
+    public function GenerateMediaObjectEx(string $Text, int $MediaID, string $Format, string $Codec, string $Language, int $Speed, string $Voice)
     {
         if ($MediaID == 0) {
             $MediaID = @IPS_GetObjectIDByIdent('Voice', $this->InstanceID);
@@ -169,7 +173,7 @@ class TTSVoiceRSS extends IPSModule
             }
         }
 
-        $raw = $this->LoadTTSFile($Text, '', 0, $Format, $Codec, $Language, true);
+        $raw = $this->LoadTTSFile($Text, '', $Format, $Codec, $Language, $Speed, $Voice, true);
 
         if ($raw === false) {
             return false;
@@ -198,15 +202,16 @@ class TTSVoiceRSS extends IPSModule
      *
      * @param string $Text     Der zu erzeugende Text
      * @param string $Filename Der Dateiname in dem abgespeichert wird.
-     * @param int    $Speed    Die Sprachgeschwindigkeit.
      * @param string $Format   Das Ziel-Format
      * @param string $Codec    Der Ziel-Codec
-     * @param string $Language Die zu verwendende Sprache
+     * @param string $Language Die verwendende Sprache
+     * @param int    $Speed    Die Sprachgeschwindigkeit.
+     * @param string $Voice    Die verwendende Stimme
      * @param bool   $raw      True wenn Rohdaten zurückgegeben werden sollen.
      *
      * @return string|bool Die Rohdaten der Sprachdatei wenn $raw = true sonst True/False im Erfolg oder Fehlerfall.
      */
-    private function LoadTTSFile(string $Text, string $Filename, int $Speed, string $Format, string $Codec, string $Language, bool $raw)
+    private function LoadTTSFile(string $Text, string $Filename, string $Format, string $Codec, string $Language, int $Speed, string $Voice, bool $raw)
     {
         if (trim($this->ReadPropertyString('Apikey')) == '') {
             $this->SetStatus(104);
@@ -220,14 +225,16 @@ class TTSVoiceRSS extends IPSModule
             return false;
         }
 
-        $ApiData['key'] = $this->ReadPropertyString('Apikey');
+        $ApiData['key'] = trim($this->ReadPropertyString('Apikey'));
 
         $ApiData['src'] = $Text;
         $ApiData['hl'] = $Language;
-        $ApiData['r'] = $Speed;
+        $ApiData['r'] = (string) $Speed;
         $ApiData['c'] = $Codec;
         $ApiData['f'] = $Format;
-
+        if ($Voice) {
+            $ApiData['v'] = $Voice;
+        }
         $header[] = 'Accept: */*';
         $header[] = 'Cache-Control: max-age=0';
         $header[] = 'Connection: close';

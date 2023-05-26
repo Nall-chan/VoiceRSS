@@ -2,12 +2,15 @@
     "translations": {
         "de": {
             "Apikey": "Api-Key",
-            "Language": "Sprache",
+            "Speech language": "Sprache",
             "German": "Deutsch",
+            "Speech rate (speed)": "Sprachgeschwindigkeit",
+            "Speech voice (empty for default voice)": "Stimme (leer für standard Stimme)",
             "Codec": "Format",
             "Samplerate": "Samplerate",
             "active": "Aktiv",
-            "no Api-Key": "Kein Api-Key gesetzt"
+            "no Api-Key": "Kein Api-Key gesetzt",
+            "This module is free for non-commercial use,\r\nDonations in support of the author are accepted here:": "Dieses Modul ist für die nicht kommerzielle Nutzung kostenlos,\r\nSchenkungen als Unterstützung für den Autor werden hier akzeptiert:"
         }
     }
 }
