@@ -103,12 +103,14 @@ Oder false im Fehlerfall.
 
 **Konfiguration:**
 
-| Eigenschaft |  Typ   |  Standardwert  |       Funktion       |
-| :---------: | :----: | :------------: | :------------------: |
-|   Apikey    | string |                | Api-Key von VoiceRSS |
-|  Language   | string |     de-de      |       Sprache        |
-|    Codec    | string |      MP3       |     Audio-Format     |
-|   Sample    | string | 8khz_8bit_mono |      Samplerate      |
+| Eigenschaft |  Typ   |  Standardwert  |          Funktion           |
+| :---------: | :----: | :------------: | :-------------------------: |
+|   Apikey    | string |                |    Api-Key von VoiceRSS     |
+|  Language   | string |     de-de      |           Sprache           |
+|    Speed    |  int   |       0        | Geschwindigkeit -10 bis +10 |
+|    Voice    | string |                |           Stimme            |
+|    Codec    | string |      MP3       |        Audio-Format         |
+|   Sample    | string | 8khz_8bit_mono |         Samplerate          |
 
 Erlaubte Parameter siehe:
 [VoiceRSS API](http://www.voicerss.org/api/documentation.aspx)
