@@ -1,18 +1,18 @@
-[![SDK](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/) 
-[![Version 2.21](https://img.shields.io/badge/Modul%20Version-2.21-blue.svg)]() 
-![Version 7.0](https://img.shields.io/badge/Symcon%20Version-7.0%20%3E-green.svg)  
-[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/) 
-[![Check Style](https://github.com/Nall-chan/VoiceRSS/workflows/Check%20Style/badge.svg)](https://github.com/Nall-chan/VoiceRSS/actions) 
+[![SDK](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
+[![Module Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FNall-chan%2FVoiceRSS%2Frefs%2Fheads%2Fmaster%2Flibrary.json&query=%24.version&label=Modul%20Version&color=blue)](https://community.symcon.de/t/modul-tts-von-voicerss/38137)
+[![Symcon Version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FNall-chan%2FVoiceRSS%2Frefs%2Fheads%2Fmaster%2Flibrary.json&query=%24.compatibility.version&suffix=%3E&label=Symcon%20Version&color=green)](https://www.symcon.de/de/service/dokumentation/installation/migrationen/v80-v81-q3-2025/)  
+[![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-green.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![Check Style](https://github.com/Nall-chan/VoiceRSS/workflows/Check%20Style/badge.svg)](https://github.com/Nall-chan/VoiceRSS/actions)
 [![Run Tests](https://github.com/Nall-chan/VoiceRSS/workflows/Run%20Tests/badge.svg)](https://github.com/Nall-chan/VoiceRSS/actions)  
-[![Spenden](https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_SM.gif)](#6-spenden)  
+[![PayPal.Me](https://img.shields.io/badge/PayPal-Me-lightblue.svg)](#6-spenden)
+[![Wunschliste](https://img.shields.io/badge/Wunschliste-Amazon-ff69fb.svg)](#6-spenden)  
 
 # Symcon-Modul: VoiceRSS <!-- omit in toc -->
-Online-TTS Engine von VoiceRSS in IPS nutzen.
-Free bei max. 350 Anfragen pro Tag.
 
-## Dokumentation <!-- omit in toc -->
+Online-TTS Engine von VoiceRSS in IPS nutzen.  
+Free bei max. 350 Anfragen pro Tag.  
 
-**Inhaltsverzeichnis**
+## Inhaltsverzeichnis <!-- omit in toc -->
 
 - [1. Funktionsumfang](#1-funktionsumfang)
 - [2. Voraussetzungen](#2-voraussetzungen)
@@ -32,22 +32,21 @@ Free bei max. 350 Anfragen pro Tag.
 
 ## 2. Voraussetzungen
 
- - IPS 5.1  
- - Registrierung bei [VoiceRSS](http://www.voicerss.org/)  
- 
+- IP-Symcon ab Version 8.1  
+- Registrierung bei [VoiceRSS](http://www.voicerss.org/)  
+
 ## 3. Installation & Konfiguration
 
-   - Installation in IPS 5.1  
-        Über den 'Module-Store' in IPS.  
+- Installation  
+  Über den `Module-Store` in IPS das Modul `VoiceRSS` hinzufügen.  
+  **Bei kommerzieller Nutzung (z.B. als Errichter oder Integrator) wenden Sie sich bitte an den Autor.**  
 
-   - Instanz erstellen  
+- Instanz erstellen  
         Im Dialog Instanz hinzufügen, ist das Modul unter dem Hersteller VoiceRSS zu finden.  
 
-   - Konfiguration  
+- Konfiguration  
         Der persönliche API-Key muss in der Instanz eingetragen werden.  
-        Die restlichen Einstellungen sind die Default-Werte für die Standard Funktionen.  
-
-   **Bei kommerzieller Nutzung (z.B. als Errichter oder Integrator) wenden Sie sich bitte an den Autor.**  
+        Die restlichen Einstellungen sind die Default-Werte für die Instanz-Funktionen.  
 
 ## 4. Funktionsreferenz
 
@@ -55,6 +54,7 @@ Free bei max. 350 Anfragen pro Tag.
 boolean TTSV_GenerateFile(integer $InstanceID, string $Text, string $Filename);
 boolean TTSV_GenerateFileEx(integer $InstanceID, string $Text, string $Filename, string $Format, string $Codec, string $Language, int $Speed, string $Voice)
 ```
+
  Erzeugt eine Audiodatei.  
  Wird kein absoluter Pfad bei `$Filename` angegeben, so wird die Datei im Script-Ordner von IPS gespeichert.
  Wird keine korrekte Dateiendung übergeben, so wird Diese ergänzt.
@@ -64,18 +64,20 @@ boolean TTSV_GenerateFileEx(integer $InstanceID, string $Text, string $Filename,
 
 ```php
 string TTSV_GetDataContent(integer $InstanceID, string $Text);
-string TTSV_GetDataContent(integer $InstanceID, string $Text, string $Format, string $Codec, string $Language, int $Speed, string $Voice)
+string TTSV_GetDataContentEx(integer $InstanceID, string $Text, string $Format, string $Codec, string $Language, int $Speed, string $Voice)
 ```
+
  Erzeugt Rohdaten zur weiterverarbeitung.  
- Im Fehlerfall wird false zurückgegeben.
- Beispiel:
-  In ein Medienobjekt schreiben:
+ Im Fehlerfall wird false zurückgegeben.  
+
+ Beispiel: In ein Medienobjekt schreiben  
 
    ```php
 // Daten holen und in $data speichern.
 $data = @TTSV_GetDataContent(40811,"Hallo Welt.");
-if ($data === false)
+if ($data === false){
     die("Konnte Daten nicht laden");
+}
 $MediaID =IPS_CreateMedia(2);
 IPS_SetMediaFile($MediaID, "Test.mp3", false);
 // Inhalt von $data in das MedienObject schreiben.
@@ -89,9 +91,11 @@ IPS_SetName($MediaID, "Test");
 integer TTSV_GenerateMediaObject(integer $InstanceID, string $Text, integer $MediaID);
 integer TTSV_GenerateMediaObjectEx(integer $InstanceID, string $Text, integer $MediaID, string $Format, string $Codec, string $Language, int $Speed, string $Voice)
 ```
-Erzeugt/befüllt ein MedienObject im logischen Baum von IPS.  
-- Wird als $MediaID eine ID eines vorhandenes MedienObject übergeben, so wird Dieses mit den Audiodaten gefüllt.
-- Wird als $MediaID eine `0` übergeben, so wird unterhalb der VoiceRSS-Instanz ein MedienObject verwendet.
+
+Erzeugt / befüllt ein MedienObject im logischen Baum von IPS:  
+
+- Wird als `$MediaID` eine ID eines vorhandenes MedienObject übergeben, so wird Dieses mit den Audiodaten gefüllt.  
+- Wird als $MediaID eine `0` übergeben, so wird unterhalb der VoiceRSS-Instanz ein MedienObject verwendet.  
 
 Der Rückgabewert ist die ID des befüllten Media-Objektes.  
 Oder false im Fehlerfall.  
@@ -115,37 +119,46 @@ Oder false im Fehlerfall.
 Erlaubte Parameter siehe:
 [VoiceRSS API](http://www.voicerss.org/api/documentation.aspx)
 
-
 **Changelog:**  
 
- Version 2.21:  
-  - Version für IPS 7.0.  
+**Version 2.22:**  
+
+- Version für IPS 8.1.  
+
+**Version 2.21:**  
+
+- Version für IPS 7.0.  
   
- Version 2.2:  
-  - Sprechgeschwindigkeit und Stimme in der Konfiguration ergänzt.  
-  - Alle ---Ex Funktionen erwarten jetzt Speed und Voice als Parameter.   
+**Version 2.2:**  
+
+- Sprechgeschwindigkeit und Stimme in der Konfiguration ergänzt.  
+- Alle ...Ex Funktionen erwarten jetzt Speed und Voice als Parameter.  
   
- Version 2.1:  
-  - Fehler in der Fehlerbehandlung behoben.  
+**Version 2.1:**  
 
- Version 2.0:  
-  - Release für IPS 5.1 und den Module-Store   
+- Fehler in der Fehlerbehandlung behoben.  
 
- Version 1.01:  
-  - Doku ergänzt.
+**Version 2.0:**  
 
- Version 1.0:  
-  - Erstes Release  
+- Release für IPS 5.1 und den Module-Store  
+
+**Version 1.01:**  
+
+- Doku ergänzt.  
+
+**Version 1.0:**  
+
+- Erstes Release  
 
 ## 6. Spenden  
   
   Die Library ist für die nicht kommerzielle Nutzung kostenlos, Schenkungen als Unterstützung für den Autor werden hier akzeptiert:  
 
   PayPal:  
-<a href="https://www.paypal.com/donate?hosted_button_id=G2SLW2MEMQZH2" target="_blank"><img src="https://www.paypalobjects.com/de_DE/DE/i/btn/btn_donate_LG.gif" border="0" /></a>  
+[![PayPal.Me](https://img.shields.io/badge/PayPal-Me-lightblue.svg)](https://paypal.me/Nall4chan)  
 
   Wunschliste:  
-<a href="https://www.amazon.de/hz/wishlist/ls/YU4AI9AQT9F?ref_=wl_share" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Amazon_icon.svg" border="0" width="100"/></a>  
+[![Wunschliste](https://img.shields.io/badge/Wunschliste-Amazon-ff69fb.svg)](https://www.amazon.de/hz/wishlist/ls/YU4AI9AQT9F?ref_=wl_share)  
 
 ## 7. Lizenz
 

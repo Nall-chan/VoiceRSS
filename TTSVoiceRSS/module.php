@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @copyright     2019 Michael Tröger
  * @license       https://creativecommons.org/licenses/by-nc-sa/4.0/ CC BY-NC-SA 4.0
  *
- * @version       2.21
+ * @version       2.22
  */
 
 /**
@@ -164,7 +164,7 @@ class TTSVoiceRSS extends IPSModuleStrict
     public function GenerateMediaObjectEx(string $Text, int $MediaID, string $Format, string $Codec, string $Language, int $Speed, string $Voice): false|int
     {
         if ($MediaID == 0) {
-            $MediaID = $this->FindIDForIdent('Voice');
+            $MediaID = @$this->GetIDForIdent('Voice');
         }
         if ($MediaID) {
             if (IPS_MediaExists($MediaID) === false) {
@@ -208,11 +208,11 @@ class TTSVoiceRSS extends IPSModuleStrict
      * @param string $Language Die verwendende Sprache
      * @param int    $Speed    Die Sprachgeschwindigkeit.
      * @param string $Voice    Die verwendende Stimme
-     * @param bool   $raw      True wenn Rohdaten zurückgegeben werden sollen.
+     * @param string $RawResult      True wenn Rohdaten zurückgegeben werden sollen.
      *
      * @return string|bool Die Rohdaten der Sprachdatei wenn $raw = true sonst True/False im Erfolg oder Fehlerfall.
      */
-    private function LoadTTSFile(string $Text, string $Filename, string $Format, string $Codec, string $Language, int $Speed, string $Voice, ?string &$raw = null): bool
+    private function LoadTTSFile(string $Text, string $Filename, string $Format, string $Codec, string $Language, int $Speed, string $Voice, ?string &$RawResult = null): bool
     {
         if (trim($this->ReadPropertyString('Apikey')) == '') {
             $this->SetStatus(104);
@@ -253,18 +253,16 @@ class TTSVoiceRSS extends IPSModuleStrict
         curl_setopt($ch, CURLOPT_TIMEOUT_MS, 3000);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-        $this->SendDebug('DoWebrequest', $Text, 0);
+        $this->SendDebug('DoWebRequest', $Text, 0);
         $result = curl_exec($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
         if ($http_code >= 400) {
-            $this->SendDebug('Webrequest Error', $http_code, 0);
+            $this->SendDebug('WebRequest Error', $http_code, 0);
             $result = false;
         } else {
-            $this->SendDebug('Webrequest Result', $http_code, 0);
+            $this->SendDebug('WebRequest Result', $http_code, 0);
         }
-
-        curl_close($ch);
 
         if ($result !== false) {
             if (substr($result, 0, 5) == 'ERROR') {
@@ -278,8 +276,8 @@ class TTSVoiceRSS extends IPSModuleStrict
             return false;
         }
 
-        if ($raw !== null) {
-            $raw = $result;
+        if ($RawResult !== null) {
+            $RawResult = $result;
             return true;
         }
 
