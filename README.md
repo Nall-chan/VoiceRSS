@@ -72,7 +72,7 @@ string TTSV_GetDataContentEx(integer $InstanceID, string $Text, string $Format, 
 
  Beispiel: In ein Medienobjekt schreiben  
 
-   ```php
+```php
 // Daten holen und in $data speichern.
 $data = @TTSV_GetDataContent(40811,"Hallo Welt.");
 if ($data === false){
